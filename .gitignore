@@ -1,0 +1,25 @@
+# VS Code settings
+.vscode/*
+!.vscode/launch.json
+
+# Go build artifacts
+bin/
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+
+# Dependency directories
+vendor/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/editor files
+*.swp
+*.swo
+
+# Logs
+*.log
