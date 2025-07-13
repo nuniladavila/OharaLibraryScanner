@@ -52,7 +52,6 @@ func ProcessGoogleBook(response *http.Response) *models.GoogleBookInfo {
 		return inputmanagement.ChooseBook(result.Items)
 
 	} else {
-		fmt.Println("No books found for the given ISBN.")
 		return nil
 	}
 }
