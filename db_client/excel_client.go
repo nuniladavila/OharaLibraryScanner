@@ -1,4 +1,4 @@
-package excelclient
+package dbclient
 
 import (
 	"OharaLibraryScanner/models"

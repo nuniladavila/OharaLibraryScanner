@@ -1,7 +1,7 @@
 package main
 
 import (
-	excelclient "OharaLibraryScanner/excel_client"
+	dbclient "OharaLibraryScanner/db_client"
 	googleclient "OharaLibraryScanner/google_client"
 	inputmanagement "OharaLibraryScanner/input_management"
 	"OharaLibraryScanner/models"
@@ -48,5 +48,6 @@ func AppendToInventory(book *models.OharaBook) {
 		return
 	}
 
-	excelclient.AddToExcel(book)
+	// excelclient.AddToExcel(book)
+	dbclient.AddToBookDatabase(book)
 }
