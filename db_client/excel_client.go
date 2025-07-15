@@ -3,14 +3,23 @@ package dbclient
 import (
 	"OharaLibraryScanner/models"
 	"fmt"
+	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/xuri/excelize/v2"
 )
 
-var SHEET_NAME string = "BookCollection"
-var INVENTORY_FILE_PATH string = "C:\\Users\\nunil\\OneDrive\\Documents\\Libros@BibliotecaOhara.xlsx"
+func init() {
+	godotenv.Load() // Loads .env file from project root (relative path)
+}
+
+var SHEET_NAME string
+var INVENTORY_FILE_PATH string
 
 func AddToExcel(oharaBook *models.OharaBook) {
+	SHEET_NAME = os.Getenv("SHEET_NAME")
+	INVENTORY_FILE_PATH = os.Getenv("EXCEL_FILE_PATH")
+
 	file, err := excelize.OpenFile(INVENTORY_FILE_PATH)
 	if err != nil {
 		fmt.Println("Error opening Excel file:", err)
