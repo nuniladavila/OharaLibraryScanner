@@ -9,6 +9,12 @@ import (
 )
 
 func main() {
+	fmt.Println("Welcome to the Ohara Library Scanner!")
+
+	AddBookProgram()
+}
+
+func AddBookProgram() {
 	//Ask user initial questions
 	batchProperties := inputmanagement.BuildBatchProperties()
 
@@ -49,5 +55,6 @@ func AppendToInventory(book *models.OharaBook) {
 	}
 
 	// excelclient.AddToExcel(book)
-	dbclient.AddToBookDatabase(book)
+	// dbclient.AddToBookDatabase(book)
+	dbclient.AddBookToDatabase(book)
 }
