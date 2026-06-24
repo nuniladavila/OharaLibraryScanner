@@ -27,24 +27,26 @@ func AddBookProgram() {
 			return
 		}
 
-		AddBook(isbn, batchProperties)
+		fmt.Println("Adding book with ISBN:", isbn)
+
+		//send isbn api req
+		googleBook := googleclient.GetBook(isbn)
+
+		if googleBook == nil {
+			fmt.Println("No book found with the provided ISBN :'(.")
+			return
+		}
+
+		//Ask if read
+		read := inputmanagement.GetReadSingleProp()
+
+		AddBook(isbn, batchProperties, googleBook, read)
 	}
 }
 
-func AddBook(isbn string, batchProps models.OharaBatchProperties) {
-	fmt.Println("Adding book with ISBN:", isbn)
+func AddBook(isbn string, batchProps models.OharaBatchProperties, googleBook *models.GoogleBookInfo, read bool) {
+	oharaBook := models.NewOharaBook(isbn, batchProps, googleBook, read)
 
-	//send isbn api req
-	googleBook := googleclient.GetBook(isbn)
-
-	if googleBook == nil {
-		fmt.Println("No book found with the provided ISBN :'(.")
-		return
-	}
-
-	oharaBook := models.NewOharaBook(isbn, batchProps, googleBook)
-
-	//add book to excel
 	AppendToInventory(oharaBook)
 }
 
@@ -56,5 +58,6 @@ func AppendToInventory(book *models.OharaBook) {
 
 	// excelclient.AddToExcel(book)
 	// dbclient.AddToBookDatabase(book)
-	dbclient.AddBookToDatabase(book)
+	// dbclient.AddBookToDatabase(book)
+	dbclient.AddBookToNotion(book)
 }

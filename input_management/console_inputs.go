@@ -49,6 +49,20 @@ func GetCategoryBatchProperty() string {
 	}
 }
 
+func GetReadSingleProp() bool {
+	fmt.Print("Did you read this book? (y/n): ")
+
+	category, _ := reader.ReadString('\n')
+	category = strings.TrimSpace(category)
+
+	switch category {
+	case "n":
+		return false
+	default:
+		return true
+	}
+}
+
 func GetLocationBatchProperty() string {
 	fmt.Print("What's the location of these books?:\n")
 	for i := 0; i < len(models.BOOKSHELF_LOCATIONS); i++ {

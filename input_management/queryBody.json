@@ -1,0 +1,140 @@
+{
+  "parent": {
+    "data_source_id": "386fd1ab-b4cf-80fd-be81-000beef5afbc"
+  },
+  "properties": {
+    "Title": {
+      "title": [
+        {
+          "text": {
+            "content": "Book Title"
+          }
+        }
+      ]
+    },
+    "Author": {
+      "select": {
+        "name": "Pedro Cabiya",
+        "color": "red"
+      }
+    },
+    "SubCategory": {
+      "multi_select": [
+        {
+          "name": "Romance",
+          "color": "pink"
+        },
+        {
+          "name": "Sci-Fi",
+          "color": "blue"
+        }
+      ]
+    },
+    "Published Date": {
+      "date": {
+        "start": "2026-06-23"
+      }
+    },
+    "ISBN": {
+      "rich_text": [
+        {
+          "text": {
+            "content": "1231239871"
+          }
+        }
+      ]
+    },
+    "Read": {
+      "checkbox": true
+    },
+    "Page Count": {
+      "number": 200
+    },
+    "Book Cover": {
+      "files": [
+        {
+          "external": {
+            "url": "http://books.google.com/books/content?id=WkecmwEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+          },
+          "name": "booktitle"
+        }
+      ]
+    }
+  },
+  "icon": {
+    "file_upload": {
+      "id": "<string>"
+    },
+    "type": "<string>"
+  },
+  "cover": {
+    "file_upload": {
+      "id": "<string>"
+    },
+    "type": "<string>"
+  },
+  "content": [
+    {
+      "embed": {
+        "url": "<string>",
+        "caption": [
+          {
+            "text": {
+              "content": "<string>",
+              "link": {
+                "url": "<string>"
+              }
+            },
+            "annotations": {
+              "bold": true,
+              "italic": true,
+              "strikethrough": true,
+              "underline": true,
+              "code": true
+            },
+            "type": "<string>"
+          }
+        ]
+      },
+      "type": "<string>",
+      "object": "<string>"
+    }
+  ],
+  "children": [
+    {
+      "embed": {
+        "url": "<string>",
+        "caption": [
+          {
+            "text": {
+              "content": "<string>",
+              "link": {
+                "url": "<string>"
+              }
+            },
+            "annotations": {
+              "bold": true,
+              "italic": true,
+              "strikethrough": true,
+              "underline": true,
+              "code": true
+            },
+            "type": "<string>"
+          }
+        ]
+      },
+      "type": "<string>",
+      "object": "<string>"
+    }
+  ],
+  "markdown": "<string>",
+  "template": {
+    "type": "<string>"
+  },
+  "position": {
+    "type": "<string>",
+    "after_block": {
+      "id": "<string>"
+    }
+  }
+}

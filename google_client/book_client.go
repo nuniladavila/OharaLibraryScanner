@@ -7,9 +7,10 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 )
 
-var apiKey = "" // Set your Google Books API key here
+var apiKey = os.Getenv("GOOGLE_API_KEY")
 
 func init() {
 }

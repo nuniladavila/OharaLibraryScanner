@@ -25,6 +25,9 @@ type OharaBook struct {
 	Language      string   `json:"language"`
 	ShelfLocation string   `json:"shelf_location"`
 	ISBN          string   `json:"isbn"`
+	Read          bool     `json:"read"`
+	PageCount     int      `json:"page_count"`
+	BookCover     string   `json:"book_cover"`
 }
 
 type OharaBatchProperties struct {
@@ -32,7 +35,7 @@ type OharaBatchProperties struct {
 	Location string `json:"location"`
 }
 
-func NewOharaBook(isbn string, batchProps OharaBatchProperties, GoogleBookInfo *GoogleBookInfo) *OharaBook {
+func NewOharaBook(isbn string, batchProps OharaBatchProperties, GoogleBookInfo *GoogleBookInfo, read bool) *OharaBook {
 	if GoogleBookInfo == nil {
 		return nil
 	}
@@ -58,7 +61,10 @@ func NewOharaBook(isbn string, batchProps OharaBatchProperties, GoogleBookInfo *
 		Edition:       "", // Assuming edition is not available in GoogleBookInfo
 		Language:      lan,
 		ShelfLocation: batchProps.Location, // Assuming shelf location is not available in GoogleBookInfo
-		ISBN:          isbn,                // Assuming ISBN is not available in GoogleBookInfo
+		Read:          read,                // Assuming shelf location is not available in GoogleBookInfo
+		ISBN:          isbn,
+		PageCount:     GoogleBookInfo.VolumeInfo.PageCount,
+		BookCover:     GoogleBookInfo.VolumeInfo.ImageLinks.Thumbnail,
 	}
 }
 
