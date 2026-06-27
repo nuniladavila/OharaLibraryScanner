@@ -49,13 +49,13 @@ func GetCategoryBatchProperty() string {
 	}
 }
 
-func GetReadSingleProp() bool {
-	fmt.Print("Did you read this book? (y/n): ")
+func GetReadSingleProp(bookTitle string) bool {
+	fmt.Printf("Did you read %s? (y/n): ", bookTitle)
 
-	category, _ := reader.ReadString('\n')
-	category = strings.TrimSpace(category)
+	read, _ := reader.ReadString('\n')
+	read = strings.TrimSpace(read)
 
-	switch category {
+	switch read {
 	case "n":
 		return false
 	default:
@@ -91,19 +91,19 @@ func GetLocationBatchProperty() string {
 func BuildRequiredBookDetailsManually(isbn string, batch models.OharaBatchProperties) *models.BasicBook {
 	fmt.Println("The book isn't available in the Google API. Please add some required details manually.")
 
-	fmt.Println("Title of the book?: ")
+	fmt.Print("Title of the book?: ")
 	title, _ := reader.ReadString('\n')
 	title = strings.TrimSpace(title)
 
-	fmt.Println("Author of the book?: ")
+	fmt.Print("Author of the book?: ")
 	author, _ := reader.ReadString('\n')
 	author = strings.TrimSpace(author)
 
-	fmt.Println("SubCategory of the book?: ")
+	fmt.Print("SubCategory of the book?: ")
 	category, _ := reader.ReadString('\n')
 	category = strings.TrimSpace(category)
 
-	fmt.Println("Page count of the book?: ")
+	fmt.Print("Page count of the book?: ")
 	page, _ := reader.ReadString('\n')
 	page = strings.TrimSpace(page)
 	intPage, err := strconv.ParseInt(page, 10, 0)

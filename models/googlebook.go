@@ -7,10 +7,6 @@ type GoogleBooksResponse struct {
 	Items      []GoogleBookInfo `json:"items"`
 }
 
-type GoogleBook struct {
-	BasicBook
-}
-
 // GoogleBook represents a single book item
 type GoogleBookInfo struct {
 	Kind       string     `json:"kind"`

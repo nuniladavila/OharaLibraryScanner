@@ -63,7 +63,45 @@ func NewOharaBook(isbn string, batchProps OharaBatchProperties, GoogleBookInfo *
 	}
 }
 
-func BuildOharaBook()
+func BuildOharaBook(isbn string, batchProps OharaBatchProperties, googleBookInfo *GoogleBookInfo, manualEntryBook *BasicBook) *OharaBook {
+	if googleBookInfo == nil {
+		if manualEntryBook == nil {
+			return nil
+		}
+		return &OharaBook{
+			BasicBook: *manualEntryBook,
+		}
+	}
+
+	var lan string
+	switch googleBookInfo.VolumeInfo.Language {
+	case "en":
+		lan = "English"
+	case "es":
+		lan = "Spanish"
+	default:
+		lan = googleBookInfo.VolumeInfo.Language
+	}
+
+	return &OharaBook{
+		BasicBook: BasicBook{
+			Title:         googleBookInfo.VolumeInfo.Title,
+			Authors:       googleBookInfo.VolumeInfo.Authors,
+			Category:      batchProps.Category,
+			Subcategories: googleBookInfo.VolumeInfo.Categories,
+			ShelfLocation: batchProps.Location,
+			ISBN:          isbn,
+			Read:          false,
+			PageCount:     googleBookInfo.VolumeInfo.PageCount,
+		},
+		Editor:        "",
+		Publisher:     googleBookInfo.VolumeInfo.Publisher,
+		PublishedDate: googleBookInfo.VolumeInfo.PublishedDate,
+		Edition:       "",
+		Language:      lan,
+		BookCover:     googleBookInfo.VolumeInfo.ImageLinks.Thumbnail,
+	}
+}
 
 func BuildBookPropToExcelCellMap(book OharaBook) map[string]string {
 	return map[string]string{

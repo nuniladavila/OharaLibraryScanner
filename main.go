@@ -31,24 +31,26 @@ func AddBookProgram() {
 
 		//send isbn api req
 		googleBook := googleclient.GetBook(isbn)
+		var manualEntryBook *models.BasicBook
 
 		if googleBook == nil {
 			fmt.Println("No book found with the provided ISBN :'(.")
-			basicBook := inputmanagement.BuildRequiredBookDetailsManually(isbn, batchProperties)
-			return
+			manualEntryBook = inputmanagement.BuildRequiredBookDetailsManually(isbn, batchProperties)
 		}
 
-		//Ask if read
-		read := inputmanagement.GetReadSingleProp()
+		//Build base class book with google or manual entry
+		oharaBook := models.BuildOharaBook(isbn, batchProperties, googleBook, manualEntryBook)
 
-		AddBook(isbn, batchProperties, googleBook, read)
+		//Ask if read
+		read := inputmanagement.GetReadSingleProp(oharaBook.Title)
+		oharaBook.Read = read
+
+		AddBook(oharaBook)
 	}
 }
 
-func AddBook(isbn string, batchProps models.OharaBatchProperties, googleBook *models.GoogleBookInfo, read bool) {
-	oharaBook := models.NewOharaBook(isbn, batchProps, googleBook, read)
-
-	AppendToInventory(oharaBook)
+func AddBook(book *models.OharaBook) {
+	AppendToInventory(book)
 }
 
 func AppendToInventory(book *models.OharaBook) {

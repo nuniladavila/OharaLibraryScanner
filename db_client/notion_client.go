@@ -43,6 +43,7 @@ func sanitizeSelectName(s string) string {
 func AddBookToNotion(oharaBook *models.OharaBook) {
 	url := notionEndpoint + "pages"
 	payloadJSON, err := GeneratePayload(oharaBook)
+
 	if err != nil {
 		log.Println("error generating payload:", err)
 		return
