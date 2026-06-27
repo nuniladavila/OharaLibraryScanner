@@ -34,6 +34,7 @@ func AddBookProgram() {
 
 		if googleBook == nil {
 			fmt.Println("No book found with the provided ISBN :'(.")
+			basicBook := inputmanagement.BuildRequiredBookDetailsManually(isbn, batchProperties)
 			return
 		}
 

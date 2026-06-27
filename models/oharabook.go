@@ -14,20 +14,13 @@ var BOOKSHELF_LOCATIONS = []string{
 }
 
 type OharaBook struct {
-	Title         string   `json:"title"`
-	Authors       []string `json:"author"`
-	Editor        string   `json:"editor"`
-	Category      string   `json:"category"`
-	Subcategories []string `json:"subcategory"`
-	Publisher     string   `json:"publisher"`
-	PublishedDate string   `json:"published_date"`
-	Edition       string   `json:"edition"`
-	Language      string   `json:"language"`
-	ShelfLocation string   `json:"shelf_location"`
-	ISBN          string   `json:"isbn"`
-	Read          bool     `json:"read"`
-	PageCount     int      `json:"page_count"`
-	BookCover     string   `json:"book_cover"`
+	BasicBook
+	Editor        string `json:"editor"`
+	Publisher     string `json:"publisher"`
+	PublishedDate string `json:"published_date"`
+	Edition       string `json:"edition"`
+	Language      string `json:"language"`
+	BookCover     string `json:"book_cover"`
 }
 
 type OharaBatchProperties struct {
@@ -51,22 +44,26 @@ func NewOharaBook(isbn string, batchProps OharaBatchProperties, GoogleBookInfo *
 	}
 
 	return &OharaBook{
-		Title:         GoogleBookInfo.VolumeInfo.Title,
-		Authors:       GoogleBookInfo.VolumeInfo.Authors,
-		Editor:        "",                                   // Assuming editor is not available in GoogleBookInfo
-		Category:      batchProps.Category,                  // Assuming category is not available in GoogleBookInfo
-		Subcategories: GoogleBookInfo.VolumeInfo.Categories, // Assuming subcategory is not available in GoogleBookInfo
+		BasicBook: BasicBook{
+			Title:         GoogleBookInfo.VolumeInfo.Title,
+			Authors:       GoogleBookInfo.VolumeInfo.Authors,
+			Category:      batchProps.Category,
+			Subcategories: GoogleBookInfo.VolumeInfo.Categories,
+			ShelfLocation: batchProps.Location,
+			ISBN:          isbn,
+			Read:          read,
+			PageCount:     GoogleBookInfo.VolumeInfo.PageCount,
+		},
+		Editor:        "",
 		Publisher:     GoogleBookInfo.VolumeInfo.Publisher,
 		PublishedDate: GoogleBookInfo.VolumeInfo.PublishedDate,
-		Edition:       "", // Assuming edition is not available in GoogleBookInfo
+		Edition:       "",
 		Language:      lan,
-		ShelfLocation: batchProps.Location, // Assuming shelf location is not available in GoogleBookInfo
-		Read:          read,                // Assuming shelf location is not available in GoogleBookInfo
-		ISBN:          isbn,
-		PageCount:     GoogleBookInfo.VolumeInfo.PageCount,
 		BookCover:     GoogleBookInfo.VolumeInfo.ImageLinks.Thumbnail,
 	}
 }
+
+func BuildOharaBook()
 
 func BuildBookPropToExcelCellMap(book OharaBook) map[string]string {
 	return map[string]string{

@@ -113,6 +113,8 @@ func GeneratePayload(oharaBook *models.OharaBook) (string, error) {
 		authorName = sanitizeSelectName(oharaBook.Authors[0])
 	}
 
+	bookCoverOpenLib := fmt.Sprintf("https://covers.openlibrary.org/b/isbn/%s-M.jpg", oharaBook.ISBN)
+
 	// Build properties map and only include non-null / non-empty values
 	props := make(map[string]interface{})
 
@@ -147,7 +149,7 @@ func GeneratePayload(oharaBook *models.OharaBook) (string, error) {
 		props["Page Count"] = models.NumberProp{Number: float64(oharaBook.PageCount)}
 	}
 	if oharaBook.BookCover != "" {
-		props["Book Cover"] = models.FilesProp{Files: []models.FileItem{{External: models.FileExternal{URL: oharaBook.BookCover}, Name: oharaBook.Title}}}
+		props["Book Cover"] = models.FilesProp{Files: []models.FileItem{{External: models.FileExternal{URL: bookCoverOpenLib}, Name: oharaBook.Title}}}
 	}
 
 	payload := map[string]interface{}{
