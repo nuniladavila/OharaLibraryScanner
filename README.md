@@ -1,6 +1,8 @@
 # Intro
 
-My personal project to keep a local, simple excel inventory of my books. This will evolutionize into it's own web app with the inventory in a db soon.
+My personal project to keep a simple inventory of my books. I have implemented different db clients, switching from an Excel sheet, SQL Server, SQL Lite and finally Notion. Notion is the latest addition since I already use it in my daily routine.
+
+To get the book info, it uses the Google Books API, which requires a registered key (free).
 
 The "Scanner" suffix comes from the idea to use a barcode scanner to facilitate the process of data entry. Hardware and Software coming together!
 
@@ -16,4 +18,6 @@ This console app assumes I'm at my bookcases which are already divided by catego
 2. Enter the batch properties
     - Category = Fiction or Non-Fiction
     - Shelf Location = Shelf-bounded big categories
-3. Scan the book isbn and done! Book will be added if found in the Google Books API.
+3. Scan the book ISBN, this will search for it in the Google Books API
+4. It will ask is you've read the book or not
+5. Book is successfully added!

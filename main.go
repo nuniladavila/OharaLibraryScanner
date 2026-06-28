@@ -1,9 +1,9 @@
 package main
 
 import (
-	dbclient "OharaLibraryScanner/db_client"
-	googleclient "OharaLibraryScanner/google_client"
-	inputmanagement "OharaLibraryScanner/input_management"
+	dbclient "OharaLibraryScanner/dbclient"
+	googleclient "OharaLibraryScanner/googleclient"
+	inputmanagement "OharaLibraryScanner/inputmanagement"
 	"OharaLibraryScanner/models"
 	"fmt"
 )
@@ -28,6 +28,7 @@ func AddBookProgram() {
 			return
 		case "c":
 			batchProperties = inputmanagement.BuildBatchProperties()
+			isbn = inputmanagement.ReadBookISBNInput()
 		}
 
 		fmt.Println("Adding book with ISBN:", isbn)
@@ -48,12 +49,8 @@ func AddBookProgram() {
 		read := inputmanagement.GetReadSingleProp(oharaBook.Title)
 		oharaBook.Read = read
 
-		AddBook(oharaBook)
+		AppendToInventory(oharaBook)
 	}
-}
-
-func AddBook(book *models.OharaBook) {
-	AppendToInventory(book)
 }
 
 func AppendToInventory(book *models.OharaBook) {
@@ -62,8 +59,12 @@ func AppendToInventory(book *models.OharaBook) {
 		return
 	}
 
-	// excelclient.AddToExcel(book)
-	// dbclient.AddToBookDatabase(book)
-	// dbclient.AddBookToDatabase(book)
-	dbclient.AddBookToNotion(book)
+	client, err := dbclient.NewDBClient("notion")
+
+	if err != nil {
+		fmt.Println("Error creating client.", err)
+		return
+	}
+
+	client.AddBook(book)
 }

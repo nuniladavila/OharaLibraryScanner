@@ -51,7 +51,7 @@ func CreateBooksTable() {
 	}
 }
 
-func AddBookToDatabase(oharaBook *models.OharaBook) {
+func (c *SqliteClient) AddBook(oharaBook *models.OharaBook) {
 	query := `INSERT INTO Books (
 		BookTitle, Author, Editor, Category, SubCategory, Publisher, PublishedDate,
 		Edition, Language, ShelfLocation, ISBN, Notes, Read, DateAdded, DateAcquired
@@ -80,4 +80,8 @@ func AddBookToDatabase(oharaBook *models.OharaBook) {
 		return
 	}
 	fmt.Println("Book added to SQLite database!")
+}
+
+func AddBookToDatabase(oharaBook *models.OharaBook) {
+	(&SqliteClient{}).AddBook(oharaBook)
 }

@@ -1,7 +1,7 @@
 package googleclient
 
 import (
-	inputmanagement "OharaLibraryScanner/input_management"
+	inputmanagement "OharaLibraryScanner/inputmanagement"
 	"OharaLibraryScanner/models"
 	"encoding/json"
 	"fmt"

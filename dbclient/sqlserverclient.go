@@ -19,7 +19,7 @@ func init() {
 	godotenv.Load() // Loads .env file from project root (relative path)
 }
 
-func AddToBookDatabase(oharaBook *models.OharaBook) {
+func (c *SqlServerClient) AddBook(oharaBook *models.OharaBook) {
 	var server = os.Getenv("DB_SERVER")
 	var database = os.Getenv("DB_DATABASE")
 	var port = 1433
@@ -70,4 +70,8 @@ func AddToBookDatabase(oharaBook *models.OharaBook) {
 		return
 	}
 	fmt.Println("Book added to database!")
+}
+
+func AddToBookDatabase(oharaBook *models.OharaBook) {
+	(&SqlServerClient{}).AddBook(oharaBook)
 }

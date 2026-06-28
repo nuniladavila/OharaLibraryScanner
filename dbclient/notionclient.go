@@ -40,7 +40,7 @@ func sanitizeSelectName(s string) string {
 	return strings.TrimSpace(s)
 }
 
-func AddBookToNotion(oharaBook *models.OharaBook) {
+func (c *NotionClient) AddBook(oharaBook *models.OharaBook) {
 	url := notionEndpoint + "pages"
 	payloadJSON, err := GeneratePayload(oharaBook)
 
