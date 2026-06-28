@@ -49,7 +49,6 @@ func AddBookToNotion(oharaBook *models.OharaBook) {
 		return
 	}
 
-	log.Println("Created payload ", payloadJSON)
 	payload := strings.NewReader(payloadJSON)
 
 	req, _ := http.NewRequest("POST", url, payload)
@@ -67,7 +66,9 @@ func AddBookToNotion(oharaBook *models.OharaBook) {
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
 
-	fmt.Println(string(body))
+	if body != nil {
+		log.Printf("\nSuccessfully added %s to the Notion Library!\n", oharaBook.Title)
+	}
 
 }
 
@@ -99,7 +100,7 @@ func TestGetAll() {
 // It returns the JSON string or an error.
 func GeneratePayload(oharaBook *models.OharaBook) (string, error) {
 	if oharaBook == nil {
-		return "", fmt.Errorf("OharaBook is nil")
+		return "", fmt.Errorf("OharaBook is null")
 	}
 	// build multi-select items from subcategories
 	multiItems := make([]models.SelectItem, 0, len(oharaBook.Subcategories))

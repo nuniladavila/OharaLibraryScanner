@@ -22,9 +22,12 @@ func AddBookProgram() {
 	for {
 		isbn := inputmanagement.ReadBookISBNInput()
 
-		if isbn == "" {
+		switch isbn {
+		case "", "e":
 			fmt.Println("Exiting...")
 			return
+		case "c":
+			batchProperties = inputmanagement.BuildBatchProperties()
 		}
 
 		fmt.Println("Adding book with ISBN:", isbn)

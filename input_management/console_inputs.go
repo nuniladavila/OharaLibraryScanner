@@ -16,16 +16,11 @@ func init() {
 }
 
 func ReadBookISBNInput() string {
-	fmt.Print("Enter isbn (or 'e' to exit): ")
+	fmt.Print("Enter isbn or: [e] to exit, [c] to change batch properties:")
 	input, _ := reader.ReadString('\n')
 	input = strings.TrimSpace(input)
 
-	switch input {
-	case "e":
-		return ""
-	default:
-		return input
-	}
+	return input
 }
 
 func BuildBatchProperties() models.OharaBatchProperties {
