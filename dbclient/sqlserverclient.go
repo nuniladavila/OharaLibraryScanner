@@ -19,6 +19,10 @@ func init() {
 	godotenv.Load() // Loads .env file from project root (relative path)
 }
 
+func (c *SqlServerClient) FindBook(isbn string) string {
+	return ""
+}
+
 func (c *SqlServerClient) AddBook(oharaBook *models.OharaBook) {
 	var server = os.Getenv("DB_SERVER")
 	var database = os.Getenv("DB_DATABASE")

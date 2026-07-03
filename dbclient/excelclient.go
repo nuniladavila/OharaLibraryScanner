@@ -16,6 +16,10 @@ func init() {
 var SHEET_NAME string
 var INVENTORY_FILE_PATH string
 
+func (c *ExcelClient) FindBook(isbn string) string {
+	return ""
+}
+
 func (c *ExcelClient) AddBook(oharaBook *models.OharaBook) {
 	SHEET_NAME = os.Getenv("SHEET_NAME")
 	INVENTORY_FILE_PATH = os.Getenv("EXCEL_FILE_PATH")

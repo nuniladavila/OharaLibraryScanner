@@ -22,6 +22,10 @@ func init() {
 	fmt.Println("Connected to the SQLite database successfully.")
 }
 
+func (c *SqliteClient) FindBook(isbn string) string {
+	return ""
+}
+
 func CreateBooksTable() {
 	query := `CREATE TABLE IF NOT EXISTS Books(
 		Id INTEGER PRIMARY KEY AUTOINCREMENT,

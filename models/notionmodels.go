@@ -63,6 +63,40 @@ type FilesProp struct {
 	Files []FileItem `json:"files"`
 }
 
+type RichTextFilter struct {
+	Equals string `json:"equals"`
+}
+
+type TitleFilter struct {
+	Equals string `json:"equals"`
+}
+
+type FilterCondition struct {
+	Title    *TitleFilter    `json:"title,omitempty"`
+	Property string          `json:"property,omitempty"`
+	Type     string          `json:"type,omitempty"`
+	RichText *RichTextFilter `json:"rich_text,omitempty"`
+}
+
+type Filter struct {
+	Or       []FilterCondition `json:"or,omitempty"`
+	RichText *RichTextFilter   `json:"rich_text,omitempty"`
+	Property string            `json:"property,omitempty"`
+}
+
+type Sort struct {
+	Property string `json:"property"`
+}
+
+type QueryPayload struct {
+	Sorts       []Sort `json:"sorts,omitempty"`
+	Filter      Filter `json:"filter,omitempty"`
+	StartCursor string `json:"start_cursor,omitempty"`
+	PageSize    int    `json:"page_size,omitempty"`
+	IsArchived  bool   `json:"is_archived,omitempty"`
+	ResultType  string `json:"result_type,omitempty"`
+}
+
 type Properties struct {
 	Title         TitleProp       `json:"Title"`
 	Author        SelectProp      `json:"Author"`
@@ -89,4 +123,90 @@ type ParentProp struct {
 type Payload struct {
 	Parent     ParentProp `json:"parent"`
 	Properties Properties `json:"properties"`
+}
+
+type NotionQueryResponse struct {
+	Object           string                 `json:"object"`
+	Results          []NotionPage           `json:"results"`
+	NextCursor       interface{}            `json:"next_cursor"`
+	HasMore          bool                   `json:"has_more"`
+	Type             string                 `json:"type"`
+	PageOrDataSource map[string]interface{} `json:"page_or_data_source"`
+	RequestID        string                 `json:"request_id"`
+}
+
+type NotionUser struct {
+	Object string `json:"object"`
+	ID     string `json:"id"`
+}
+
+type NotionPage struct {
+	Object         string               `json:"object"`
+	ID             string               `json:"id"`
+	CreatedTime    string               `json:"created_time"`
+	LastEditedTime string               `json:"last_edited_time"`
+	CreatedBy      NotionUser           `json:"created_by"`
+	LastEditedBy   NotionUser           `json:"last_edited_by"`
+	Cover          interface{}          `json:"cover"`
+	Icon           interface{}          `json:"icon"`
+	Parent         NotionParent         `json:"parent"`
+	InTrash        bool                 `json:"in_trash"`
+	IsArchived     bool                 `json:"is_archived"`
+	IsLocked       bool                 `json:"is_locked"`
+	Properties     NotionPageProperties `json:"properties"`
+	URL            string               `json:"url"`
+	PublicURL      string               `json:"public_url"`
+}
+
+type NotionParent struct {
+	Type         string `json:"type"`
+	DataSourceID string `json:"data_source_id"`
+	DatabaseID   string `json:"database_id"`
+}
+
+type NotionPageProperties struct {
+	ISBN  NotionRichTextProperty `json:"ISBN"`
+	Title NotionTitleProperty    `json:"Title"`
+}
+
+type NotionRichTextProperty struct {
+	ID       string               `json:"id"`
+	Type     string               `json:"type"`
+	RichText []NotionRichTextItem `json:"rich_text"`
+}
+
+type NotionTitleProperty struct {
+	ID    string            `json:"id"`
+	Type  string            `json:"type"`
+	Title []NotionTitleItem `json:"title"`
+}
+
+type NotionRichTextItem struct {
+	Type        string                `json:"type"`
+	Text        NotionTextContent     `json:"text"`
+	Annotations NotionTextAnnotations `json:"annotations"`
+	PlainText   string                `json:"plain_text"`
+	Href        interface{}           `json:"href"`
+}
+
+type NotionTitleItem struct {
+	Type        string                `json:"type"`
+	Text        NotionTextContent     `json:"text"`
+	Annotations NotionTextAnnotations `json:"annotations"`
+	PlainText   string                `json:"plain_text"`
+	Href        interface{}           `json:"href"`
+}
+
+type NotionTextContent struct {
+	Content string      `json:"content"`
+	Link    interface{} `json:"link"`
+}
+
+type NotionTextAnnotations struct {
+	Bold          bool   `json:"bold"`
+	Italic        bool   `json:"italic"`
+	Strikethrough bool   `json:"strikethrough"`
+	Underline     bool   `json:"underline"`
+	Code          bool   `json:"code"`
+	Color         string `json:"color"`
 }

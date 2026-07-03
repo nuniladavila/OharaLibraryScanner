@@ -11,6 +11,7 @@ var BOOKSHELF_LOCATIONS = []string{
 	"English General Fiction",
 	"English Classics",
 	"English Speculative",
+	"English Horror/Suspense",
 }
 
 type OharaBook struct {

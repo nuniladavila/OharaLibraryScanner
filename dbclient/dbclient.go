@@ -8,6 +8,7 @@ import (
 
 type DbClienter interface {
 	AddBook(oharaBook *models.OharaBook)
+	FindBook(isbn string) string
 }
 
 type ExcelClient struct{}

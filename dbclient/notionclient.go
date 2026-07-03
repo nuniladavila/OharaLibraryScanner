@@ -24,6 +24,7 @@ var shelfLocationColorMapping = map[string]string{
 	"English General Fiction": "green",
 	"English Classics":        "orange",
 	"English Speculative":     "blue",
+	"English Horror/Suspense": "red",
 }
 var categoryColorMapping = map[string]string{
 	"Non-Fiction": "brown",
@@ -38,6 +39,62 @@ var langColorMapping = map[string]string{
 func sanitizeSelectName(s string) string {
 	s = strings.ReplaceAll(s, ",", "")
 	return strings.TrimSpace(s)
+}
+
+func (c *NotionClient) FindBook(isbn string) string {
+	url := fmt.Sprintf("%sdata_sources/%s/query", notionEndpoint, datasourceId)
+
+	payloadJSON, err := BuildFindBookPayload(isbn)
+	if err != nil {
+		log.Println("error building Notion query payload:", err)
+		return ""
+	}
+
+	payload := strings.NewReader(payloadJSON)
+
+	req, err := http.NewRequest("POST", url, payload)
+	if err != nil {
+		log.Println("error creating Notion request:", err)
+		return ""
+	}
+	req.Header.Add("Notion-Version", "2026-03-11")
+	req.Header.Add("Authorization", "Bearer "+os.Getenv("NOTION_API_KEY"))
+	req.Header.Add("Content-Type", "application/json")
+
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.Println("Error querying Notion:", err)
+		return ""
+	}
+
+	defer res.Body.Close()
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		log.Println("error reading Notion response body:", err)
+		return ""
+	}
+
+	var response models.NotionQueryResponse
+	if err := json.Unmarshal(body, &response); err != nil {
+		log.Println("error decoding Notion response:", err)
+		return ""
+	}
+
+	if len(response.Results) == 1 {
+		log.Println("One book found!")
+		return response.Results[0].Properties.Title.Title[0].Text.Content
+	}
+
+	if len(response.Results) == 0 {
+		return ""
+	} else {
+		log.Println("There was more than one book with the same ISBN. Please clean your db.")
+		for i, book := range response.Results {
+			log.Println(i, book)
+		}
+	}
+
+	return ""
 }
 
 func (c *NotionClient) AddBook(oharaBook *models.OharaBook) {
@@ -57,7 +114,6 @@ func (c *NotionClient) AddBook(oharaBook *models.OharaBook) {
 	req.Header.Add("Content-Type", "application/json")
 
 	res, err := http.DefaultClient.Do(req)
-
 	if err != nil {
 		log.Println("Error happened when trying to query database", err)
 		return
@@ -72,28 +128,23 @@ func (c *NotionClient) AddBook(oharaBook *models.OharaBook) {
 
 }
 
-func TestGetAll() {
-	url := notionEndpoint + "data_sources/" + datasourceId + "/query"
-
-	payload := strings.NewReader("{\n  \"sorts\": [\n    {\n      \"property\": \"<string>\"\n    }\n  ],\n  \"filter\": {\n    \"or\": [\n      {\n        \"title\": {\n          \"equals\": \"<string>\"\n        },\n        \"property\": \"<string>\",\n        \"type\": \"<string>\"\n      }\n    ]\n  },\n  \"start_cursor\": \"<string>\",\n  \"page_size\": 123,\n  \"in_trash\": true\n}")
-
-	req, _ := http.NewRequest("POST", url, payload)
-
-	req.Header.Add("Notion-Version", "2026-03-11")
-	req.Header.Add("Authorization", os.Getenv("NOTION_API_KEY"))
-	req.Header.Add("Content-Type", "application/json")
-
-	res, err := http.DefaultClient.Do(req)
-
-	if err != nil {
-		log.Println("Error happened when trying to query database", err)
-		return
+func BuildFindBookPayload(isbn string) (string, error) {
+	queryPayload := map[string]interface{}{
+		"filter": map[string]interface{}{
+			"rich_text": map[string]string{"equals": isbn},
+			"property":  "ISBN",
+		},
+		"start_cursor": "",
+		"page_size":    5,
+		"result_type":  "page",
 	}
 
-	defer res.Body.Close()
-	body, _ := io.ReadAll(res.Body)
+	payloadBytes, err := json.Marshal(queryPayload)
+	if err != nil {
+		return "", err
+	}
 
-	fmt.Println(string(body))
+	return string(payloadBytes), nil
 }
 
 // GeneratePayload builds a JSON payload for Notion from an OharaBook.

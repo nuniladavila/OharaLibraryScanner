@@ -8,13 +8,18 @@ import (
 	"fmt"
 )
 
+var client dbclient.DbClienter
+
 func main() {
 	fmt.Println("Welcome to the Ohara Library Scanner!")
+
+	client, _ = dbclient.NewDBClient("notion")
 
 	AddBookProgram()
 }
 
 func AddBookProgram() {
+
 	//Ask user initial questions
 	batchProperties := inputmanagement.BuildBatchProperties()
 
@@ -27,11 +32,16 @@ func AddBookProgram() {
 			fmt.Println("Exiting...")
 			return
 		case "c":
-			batchProperties = inputmanagement.BuildBatchProperties()
-			isbn = inputmanagement.ReadBookISBNInput()
+			continue
 		}
 
-		fmt.Println("Adding book with ISBN:", isbn)
+		fmt.Println("Checking if book is already added...")
+		bookFound := client.FindBook(isbn)
+		if bookFound != "" {
+			fmt.Println("Book already exists! You already added", bookFound)
+			continue
+		}
+		fmt.Println("New book confirmed. Adding book:", isbn)
 
 		//send isbn api req
 		googleBook := googleclient.GetBook(isbn)
@@ -56,13 +66,6 @@ func AddBookProgram() {
 func AppendToInventory(book *models.OharaBook) {
 	if book == nil {
 		fmt.Println("No book to add.")
-		return
-	}
-
-	client, err := dbclient.NewDBClient("notion")
-
-	if err != nil {
-		fmt.Println("Error creating client.", err)
 		return
 	}
 
