@@ -18,6 +18,7 @@ This console app assumes I'm at my bookcases which are already divided by catego
 2. Enter the batch properties
     - Category = Fiction or Non-Fiction
     - Shelf Location = Shelf-bounded big categories
-3. Scan the book ISBN, this will search for it in the Google Books API
-4. It will ask is you've read the book or not
+3. Scan the book ISBN, or if you want to change the batch properties, enter 'c'. 'e' to exit.
+    - Providing an ISBN will search for it in the Google Books API
+4. It will ask is you've read the book or not, answer with "y" or "n".
 5. Book is successfully added!
