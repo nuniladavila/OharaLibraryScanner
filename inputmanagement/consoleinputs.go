@@ -49,12 +49,16 @@ func GetReadSingleProp(bookTitle string) bool {
 
 	read, _ := reader.ReadString('\n')
 	read = strings.TrimSpace(read)
+	read = strings.ToLower(read)
 
 	switch read {
+	case "y":
+		return true
 	case "n":
 		return false
 	default:
-		return true
+		fmt.Println("You did not enter 'y' or 'n'. Defaulting to No.")
+		return false
 	}
 }
 

@@ -62,8 +62,8 @@ func (c *NotionClient) FindBook(isbn string) string {
 	req.Header.Add("Content-Type", "application/json")
 
 	res, err := http.DefaultClient.Do(req)
-	if err != nil {
-		log.Println("Error querying Notion:", err)
+	if err != nil || res.StatusCode != 200 {
+		log.Println("Error querying Notion:", err, res.Status)
 		return ""
 	}
 
@@ -110,12 +110,12 @@ func (c *NotionClient) AddBook(oharaBook *models.OharaBook) {
 
 	req, _ := http.NewRequest("POST", url, payload)
 	req.Header.Add("Notion-Version", "2026-03-11")
-	req.Header.Add("Authorization", os.Getenv("NOTION_API_KEY"))
+	req.Header.Add("Authorization", "Bearer "+os.Getenv("NOTION_API_KEY"))
 	req.Header.Add("Content-Type", "application/json")
 
 	res, err := http.DefaultClient.Do(req)
-	if err != nil {
-		log.Println("Error happened when trying to query database", err)
+	if err != nil || res.StatusCode != 200 {
+		log.Println("Error happened when trying to query database", err, res.Status)
 		return
 	}
 

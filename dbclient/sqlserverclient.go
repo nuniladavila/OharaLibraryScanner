@@ -15,15 +15,13 @@ import (
 	_ "github.com/denisenkom/go-mssqldb"
 )
 
-func init() {
-	godotenv.Load() // Loads .env file from project root (relative path)
-}
-
 func (c *SqlServerClient) FindBook(isbn string) string {
 	return ""
 }
 
 func (c *SqlServerClient) AddBook(oharaBook *models.OharaBook) {
+	godotenv.Load() // Loads .env file from project root (relative path)
+
 	var server = os.Getenv("DB_SERVER")
 	var database = os.Getenv("DB_DATABASE")
 	var port = 1433
