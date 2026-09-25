@@ -28,11 +28,12 @@ func AddBookProgram() {
 		isbn := inputmanagement.ReadBookISBNInput()
 
 		switch isbn {
-		case "", "e":
+		case "", "e": //Exit
 			fmt.Println("Exiting...")
 			return
-		case "c":
-			continue
+		case "c": //Change Shelf location
+			batchProperties = inputmanagement.BuildBatchProperties()
+			isbn = inputmanagement.ReadBookISBNInput()
 		}
 
 		fmt.Println("Checking if book is already added...")

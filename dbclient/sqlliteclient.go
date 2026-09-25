@@ -12,7 +12,7 @@ import (
 
 var db *sql.DB
 
-func init() {
+func InitializeServer() {
 	var err error
 	db, err = sql.Open("sqlite", "./OharaLibrary_SQLite.db")
 	if err != nil {
@@ -56,6 +56,8 @@ func CreateBooksTable() {
 }
 
 func (c *SqliteClient) AddBook(oharaBook *models.OharaBook) {
+	InitializeServer()
+
 	query := `INSERT INTO Books (
 		BookTitle, Author, Editor, Category, SubCategory, Publisher, PublishedDate,
 		Edition, Language, ShelfLocation, ISBN, Notes, Read, DateAdded, DateAcquired

@@ -9,10 +9,6 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-func init() {
-	godotenv.Load() // Loads .env file from project root (relative path)
-}
-
 var SHEET_NAME string
 var INVENTORY_FILE_PATH string
 
@@ -21,6 +17,8 @@ func (c *ExcelClient) FindBook(isbn string) string {
 }
 
 func (c *ExcelClient) AddBook(oharaBook *models.OharaBook) {
+	godotenv.Load() // Loads .env file from project root (relative path)
+
 	SHEET_NAME = os.Getenv("SHEET_NAME")
 	INVENTORY_FILE_PATH = os.Getenv("EXCEL_FILE_PATH")
 
