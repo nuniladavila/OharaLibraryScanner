@@ -8,8 +8,6 @@ The "Scanner" suffix comes from the idea to use a barcode scanner to facilitate 
 
 Also this is my first project using Go. It was a great little simple learning experience. Not a fan right now but maybe I'll turn into one at some point.
 
-Ohara is a OnePiece reference. iykyk.
-
 # Instructions
 
 This console app assumes I'm at my bookcases which are already divided by category. That's why I added the batch property questions at the beginning, since these would remain the same for a big batch.
@@ -22,3 +20,7 @@ This console app assumes I'm at my bookcases which are already divided by catego
     - Providing an ISBN will search for it in the Google Books API
 4. It will ask is you've read the book or not, answer with "y" or "n".
 5. Book is successfully added!
+
+# Features
+- Duplicate handling for Notion! It will query my Notion database first to see if the book already exists. If it doesn't then it adds the book.
+- Changing categories is possible without needing to restart the program. 'c' input in the isbn field.
