@@ -19,8 +19,8 @@ func GetBook(isbn string) *models.GoogleBookInfo {
 	url := fmt.Sprintf("https://www.googleapis.com/books/v1/volumes?q=isbn:%s&key=%s", isbn, apiKey)
 
 	response, err := http.Get(url)
-	if err != nil {
-		fmt.Println("Error fetching book data:", err)
+	if err != nil || response.StatusCode != 200 {
+		fmt.Println("Error fetching book data:", err, response.Status)
 		return nil
 	}
 

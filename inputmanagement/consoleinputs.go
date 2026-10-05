@@ -110,6 +110,10 @@ func BuildRequiredBookDetailsManually(isbn string, batch models.OharaBatchProper
 		intPage = 0
 	}
 
+	fmt.Print("Language of the book? en or es: ")
+	lan, _ := reader.ReadString('\n')
+	lan = strings.TrimSpace(lan)
+
 	return &models.BasicBook{
 		Title:         title,
 		Authors:       strings.Split(author, ","),
@@ -118,15 +122,15 @@ func BuildRequiredBookDetailsManually(isbn string, batch models.OharaBatchProper
 		ShelfLocation: batch.Location,
 		ISBN:          isbn,
 		PageCount:     int(intPage),
+		Language:      models.NormalizeLanguage(lan),
 	}
-
 }
 
 func ChooseBook(items []models.GoogleBookInfo) *models.GoogleBookInfo {
 	fmt.Println("Multiple books found. Please confirm which book to add:")
 
 	for i, item := range items {
-		fmt.Printf("[%d] %s\n", i+1, item.VolumeInfo.Title)
+		fmt.Printf("[%d] %s by %s\n", i+1, item.VolumeInfo.Title, item.VolumeInfo.Authors[0])
 	}
 
 	reader := bufio.NewReader(os.Stdin)

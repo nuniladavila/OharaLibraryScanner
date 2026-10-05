@@ -115,7 +115,7 @@ func (c *NotionClient) AddBook(oharaBook *models.OharaBook) {
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil || res.StatusCode != 200 {
-		log.Println("Error happened when trying to query database", err, res.Status)
+		log.Println("Error happened when trying to add book to the database", err, res.Status)
 		return
 	}
 
